@@ -161,9 +161,16 @@
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            // 안내 화면 숨기기
-            document.getElementById('start-notice').style.display = 'none';
-            playBeep(); // 시작 알림
+            
+            // 핵심: 이 부분을 추가해서 안내 화면을 없애고 클릭 이벤트를 제거합니다.
+            const notice = document.getElementById('start-notice');
+            if (notice.style.display !== 'none') {
+                notice.style.display = 'none';
+                playBeep(); // '시작됨'을 알리는 최초 1회 소리
+            }
+            
+            // 더 이상 클릭해도 소리 안 나게 본체의 클릭 속성을 날려버립니다.
+            document.body.onclick = null;
         }
 
         const fullSchedule = [
